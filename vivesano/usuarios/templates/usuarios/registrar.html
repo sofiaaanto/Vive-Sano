@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Crear cuenta - Ecofor Market{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1 class="auth-title">Crea una cuenta</h1>
+
+    {% if messages %}
+      {% for m in messages %}
+        <div class="message message-success">{{ m }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label class="form-label">Nombre de usuario</label>
+          {{ form.username }}
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Es Persona Natural o Empresa</label>
+          {{ form.tipo_cliente }}
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Correo electrónico</label>
+          {{ form.email }}
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">RUT</label>
+          {{ form.rut }}
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          {{ form.password1 }}
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confirmar contraseña</label>
+          {{ form.password2 }}
+        </div>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox">
+        <span>Yo acepto los términos de servicio y la política de privacidad.</span>
+      </div>
+
+      <div style="margin-top:1.5rem; text-align:center;">
+        <button type="submit" class="btn btn-primary" style="width:70%;">Crear una cuenta</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

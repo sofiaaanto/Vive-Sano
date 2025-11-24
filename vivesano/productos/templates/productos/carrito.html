@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Carrito de compras - Ecofor Market{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Carrito de compras</h1>
+
+  {% if carrito.cart %}
+    <table class="cart-table">
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio unitario</th>
+        <th>Subtotal</th>
+        <th></th>
+      </tr>
+      {% for item in carrito %}
+        <tr>
+          <td>{{ item.producto.nombre }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td>${{ item.precio }}</td>
+          <td>${{ item.subtotal }}</td>
+          <td>
+            <a href="{% url 'eliminar_del_carrito' item.producto.id %}" class="btn btn-link">Quitar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <div class="cart-summary">
+      Total: ${{ carrito.total }}
+    </div>
+
+    <div style="margin-top:1rem; text-align:right;">
+      <a href="{% url 'catalogo_productos' %}" class="btn btn-secondary">Seguir comprando</a>
+      <a href="{% url 'vaciar_carrito' %}" class="btn btn-secondary">Vaciar carrito</a>
+      <a href="{% url 'finalizar_compra' %}" class="btn btn-primary">Finalizar compra (simulada)</a>
+    </div>
+  {% else %}
+    <p>Tu carrito está vacío.</p>
+    <a href="{% url 'catalogo_productos' %}" class="btn btn-primary">Ir al catálogo</a>
+  {% endif %}
+</div>
+{% endblock %}

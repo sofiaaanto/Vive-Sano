@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Crear producto - Ecofor Market{% endblock %}
+
+{% block content %}
+<div class="admin-page-container">
+  <div class="admin-card form-card">
+
+    <h1 class="admin-title">Crear producto</h1>
+    <p class="admin-subtitle">
+      Completa la información del nuevo producto para agregarlo al catálogo.
+    </p>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Precio:</label>
+        <input type="number" name="precio" step="0.01" required>
+        <small class="form-help">Ingresa el precio en pesos chilenos.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Stock:</label>
+        <input type="number" name="stock" required>
+        <small class="form-help">Cantidad disponible en bodega.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Categoría:</label>
+        <select name="categoria">
+          <option value="abarrotes">Abarrotes</option>
+          <option value="bebidas">Bebidas</option>
+          <option value="aseo">Aseo</option>
+          <option value="lacteos">Lácteos</option>
+          <option value="snacks">Snacks</option>
+          <option value="otros">Otros</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Descripción:</label>
+        <textarea name="descripcion"></textarea>
+        <small class="form-help">Puedes detallar formato, marca, presentación, etc.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Imagen del producto (opcional):</label>
+        <input type="file" name="imagen" accept="image/*">
+        <small class="form-help">Puedes subir una imagen en formato JPG, PNG o WEBP.</small>
+      </div>
+
+
+      <div class="form-actions">
+        <a href="{% url 'listar_productos' %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Crear producto</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

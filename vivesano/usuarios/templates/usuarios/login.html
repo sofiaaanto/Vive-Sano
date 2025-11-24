@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Iniciar sesión - Ecofor Market{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1 class="auth-title">Inicio de sesión</h1>
+
+    {% if form.errors %}
+      <div class="message message-error">
+        Rut o contraseña incorrectos.
+      </div>
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label">Usuario o Rut</label>
+        {{ form.username }}
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Contraseña</label>
+        {{ form.password }}
+      </div>
+
+      <div style="margin-top:1.5rem; text-align:center;">
+        <button type="submit" class="btn btn-primary" style="width: 70%;">Ingresar</button>
+      </div>
+
+      <div style="margin-top:1rem; text-align:center; font-size:0.85rem;">
+        <a href="{% url 'password_reset' %}" style="color:#f2c14f;">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <div style="margin-top:0.5rem; text-align:center; font-size:0.85rem;">
+        ¿No tienes una cuenta?
+        <a href="{% url 'registrar' %}" style="color:#f2c14f;">Crear una cuenta</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

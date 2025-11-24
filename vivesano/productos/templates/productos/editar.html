@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Editar producto - Ecofor Market{% endblock %}
+
+{% block content %}
+<div class="admin-page-container">
+  <div class="admin-card form-card">
+
+    <h1 class="admin-title">Editar producto</h1>
+    <p class="admin-subtitle">
+      Modifica los datos del producto y guarda los cambios.
+    </p>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="nombre" value="{{ producto.nombre }}" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Precio:</label>
+        <input type="number" name="precio" step="0.01" value="{{ producto.precio }}" required>
+        <small class="form-help">Ingresa el precio en pesos chilenos.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Stock:</label>
+        <input type="number" name="stock" value="{{ producto.stock }}" required>
+        <small class="form-help">Cantidad disponible en bodega.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Categoría:</label>
+        <select name="categoria">
+          <option value="abarrotes" {% if producto.categoria == "abarrotes" %}selected{% endif %}>Abarrotes</option>
+          <option value="bebidas" {% if producto.categoria == "bebidas" %}selected{% endif %}>Bebidas</option>
+          <option value="aseo" {% if producto.categoria == "aseo" %}selected{% endif %}>Aseo</option>
+          <option value="lacteos" {% if producto.categoria == "lacteos" %}selected{% endif %}>Lácteos</option>
+          <option value="snacks" {% if producto.categoria == "snacks" %}selected{% endif %}>Snacks</option>
+          <option value="otros" {% if producto.categoria == "otros" %}selected{% endif %}>Otros</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Descripción:</label>
+        <textarea name="descripcion">{{ producto.descripcion }}</textarea>
+      </div>
+
+      {% if producto.imagen %}
+      <div class="form-group">
+        <label class="form-label">Imagen actual:</label><br>
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 160px; border-radius: 8px;">
+      </div>
+      {% endif %}
+
+      <div class="form-group">
+        <label class="form-label">Nueva imagen (opcional):</label>
+        <input type="file" name="imagen" accept="image/*">
+        <small class="form-help">Si no seleccionas nada, se mantendrá la imagen actual.</small>
+      </div>
+
+      <div class="form-actions">
+        <a href="{% url 'listar_productos' %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

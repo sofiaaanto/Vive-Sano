@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Panel de Administrador - Ecofor Market{% endblock %}
+
+{% block content %}
+<div class="admin-page-container">
+  <div class="admin-card">
+
+    <div class="admin-header">
+      <div>
+        <h1 class="admin-title">Panel de Administrador</h1>
+        <p class="admin-subtitle">
+          Opciones avanzadas de administración del sistema Ecofor Market.
+        </p>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+
+      <div class="dashboard-item">
+        <h3>Catálogo de productos</h3>
+        <p>Crear, editar, desactivar y gestionar el stock de productos.</p>
+        <a href="{% url 'listar_productos' %}" class="btn btn-primary">
+          Gestionar productos
+        </a>
+      </div>
+
+      <div class="dashboard-item">
+        <h3>Usuarios del sistema</h3>
+        <p>Administrar cuentas, roles y permisos desde el admin de Django.</p>
+        <a href="/admin/" class="btn btn-secondary">
+          Abrir admin de Django
+        </a>
+      </div>
+
+      <!-- Si más adelante agregas reportes, pedidos, etc., los sumas aquí -->
+      <div class="dashboard-item">
+        <h3>Reportes</h3>
+        <p>Visualizar estadísticas de ventas y comportamiento de clientes.</p>
+        <a href="#" class="btn btn-secondary">Ver reportes</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

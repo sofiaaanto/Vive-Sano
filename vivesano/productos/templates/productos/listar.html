@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Productos - Administración - Ecofor Market{% endblock %}
+
+{% block content %}
+<div class="admin-page-container">
+  <div class="admin-card">
+
+    <div class="admin-header">
+      <div>
+        <h1 class="admin-title">Productos</h1>
+        <p class="admin-subtitle">
+          Gestiona el catálogo disponible para los clientes de Ecofor Market.
+        </p>
+      </div>
+      <div>
+        <a href="{% url 'crear_producto' %}" class="btn btn-primary">
+          + Crear nuevo producto
+        </a>
+      </div>
+    </div>
+
+    {% if productos %}
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Categoría</th>
+              <th>Activo</th>
+              <th style="width:140px;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in productos %}
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>{{ p.nombre }}</td>
+              <td>${{ p.precio|floatformat:0 }}</td>
+              <td>{{ p.stock }}</td>
+              <td>{{ p.get_categoria_display }}</td>
+              <td>
+                {% if p.activo %}
+                  <span class="badge-status badge-ok">Activo</span>
+                {% else %}
+                  <span class="badge-status badge-off">Inactivo</span>
+                {% endif %}
+              </td>
+              <td>
+                <a href="{% url 'editar_producto' p.id %}" class="admin-link">
+                  Editar
+                </a>
+                |
+                <a href="{% url 'eliminar_producto' p.id %}" class="admin-link admin-link-danger">
+                  Eliminar
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>No hay productos registrados.</p>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

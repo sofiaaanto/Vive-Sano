@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard - Ecofor Market{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+  <div class="dashboard-card">
+
+    <h1 class="dashboard-title">Dashboard</h1>
+    <p class="dashboard-welcome">
+      Bienvenido, <strong>{{ user.username }}</strong>.
+    </p>
+    <p class="dashboard-role">
+      Tu tipo de usuario es: <span class="badge-role">{{ user.tipo_cliente }}</span>
+      {% if user.es_admin %}
+        <span class="badge-admin">Administrador</span>
+      {% endif %}
+    </p>
+
+    {% if user.es_admin %}
+      <h2 class="dashboard-section-title">Panel de Administrador</h2>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-item">
+          <h3>Gestión de productos</h3>
+          <p>Crear, editar y desactivar productos del catálogo.</p>
+          <a href="{% url 'listar_productos' %}" class="btn btn-primary">
+              Gestionar productos (CRUD)
+          </a>
+        </div>
+
+        <div class="dashboard-item">
+          <h3>Gestión de usuarios</h3>
+          <p>Administrar cuentas desde el panel estándar de Django.</p>
+          <a href="{% url 'admin:usuarios_usuario_changelist' %}" class="btn btn-secondary">
+            Gestionar usuarios (Django admin)
+          </a>
+        </div>
+
+        <div class="dashboard-item">
+          <h3>Panel administrativo completo</h3>
+          <p>Acceso a todas las opciones avanzadas de administración.</p>
+          <a href="{% url 'admin_panel' %}" class="btn btn-secondary">
+              Ir al Panel Administrativo
+          </a>
+        </div>
+      </div>
+    {% else %}
+      <h2 class="dashboard-section-title">Accesos rápidos</h2>
+      <div class="dashboard-grid">
+        <div class="dashboard-item">
+          <h3>Catálogo</h3>
+          <p>Revisa todos los productos disponibles en Ecofor Market.</p>
+          <a href="{% url 'catalogo_productos' %}" class="btn btn-primary">
+            Ver catálogo
+          </a>
+        </div>
+        <div class="dashboard-item">
+          <h3>Carrito</h3>
+          <p>Verifica los productos que tienes listos para compra.</p>
+          <a href="{% url 'ver_carrito' %}" class="btn btn-secondary">
+            Ir al carrito
+          </a>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

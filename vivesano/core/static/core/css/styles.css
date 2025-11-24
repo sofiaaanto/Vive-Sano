@@ -1,0 +1,766 @@
+/* ===== Reset básico ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: #f5f5f5;
+    color: #1f2933;
+}
+
+/* ===== Layout general ===== */
+.site-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    background-color:hsl(109, 94%, 25%); /* verde oscuro */
+    color: #ffffff;
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-logo {
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.navbar-nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.navbar-nav a:hover {
+    text-decoration: underline;
+}
+
+.navbar-user {
+    font-size: 0.85rem;
+}
+
+/* ===== Contenedor principal ===== */
+.container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* ===== Botones ===== */
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: #f2c14f;
+    color:hsl(109, 94%, 25%);
+}
+
+.btn-primary:hover {
+    background-color: #e6b53c;
+}
+
+.btn-secondary {
+    background-color: #e1e5ea;
+    color:hsl(109, 94%, 25%);
+}
+
+.btn-secondary:hover {
+    background-color: #cfd5dd;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color:hsl(109, 94%, 25%);
+    text-decoration: underline;
+    padding: 0;
+}
+
+/* ===== Tarjetas ===== */
+.card {
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+}
+
+/* ===== Grid de productos ===== */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    padding: 1.25rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card img {
+    max-width: 100%;
+    max-height: 160px;
+    object-fit: contain;
+    margin-bottom: 0.75rem;
+}
+
+.product-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+}
+
+.product-price {
+    color: hsl(109, 94%, 25%);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    font-size: 1rem;
+}
+
+/* ===== Formularios Auth (login/registro) ===== */
+.auth-page {
+    background-color: hsl(109, 94%, 25%);
+    color: #ffffff;
+    padding: 3rem 0;
+}
+
+.auth-card {
+    max-width: 650px;
+    margin: 0 auto;
+    background-color:hsl(109, 94%, 25%);
+    border-radius: 18px;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+}
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.75rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+/* Inputs de formularios dentro de auth-card */
+.auth-card input[type="text"],
+.auth-card input[type="password"],
+.auth-card input[type="email"],
+.auth-card input[type="number"],
+.auth-card select {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid #cbd2e1;
+    font-size: 0.9rem;
+}
+
+.auth-card input[type="text"]:focus,
+.auth-card input[type="password"]:focus,
+.auth-card input[type="email"]:focus,
+.auth-card input[type="number"]:focus,
+.auth-card select:focus {
+    outline: none;
+    border-color: #f2c14f;
+    box-shadow: 0 0 0 2px rgba(242,193,79,0.4);
+}
+
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.7rem;
+    font-size: 0.85rem;
+}
+
+/* ===== Mensajes simples ===== */
+.message {
+    margin-bottom: 1rem;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+}
+
+.message-success {
+    background-color: #e4f5e9;
+    color:hsl(109, 94%, 25%);
+}
+
+.message-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* ===== Carrito ===== */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.cart-table th,
+.cart-table td {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+}
+
+.cart-table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.cart-summary {
+    margin-top: 1rem;
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Footer */
+.footer {
+    background-color: hsl(109, 94%, 25%);
+    color: #ffffff;
+    text-align: center;
+    padding: 0.75rem;
+    font-size: 0.8rem;
+}
+
+/* --- COMPRA REALIZADA (SIMULADA) --- */
+
+.checkout-success-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.checkout-card {
+    width: 100%;
+    max-width: 900px;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.checkout-title {
+    font-size: 1.9rem;
+    color: hsl(109, 94%, 25%);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.checkout-subtitle {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 1.3rem;
+}
+
+.checkout-section-title {
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+    color: hsl(109, 94%, 25%);
+    font-weight: 600;
+}
+
+.checkout-table-container {
+    margin-top: 1rem;
+    overflow-x: auto;
+}
+
+.checkout-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.checkout-table th {
+    background: hsl(109, 94%, 25%);
+    color: white;
+    padding: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.checkout-table td {
+    padding: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 0.9rem;
+}
+
+.checkout-table tr:last-child td {
+    border-bottom: none;
+}
+
+.checkout-total {
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+    color: hsl(109, 94%, 25%);
+    text-align: right;
+    font-weight: 700;
+}
+
+.checkout-note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+.checkout-buttons {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.btn-primary {
+    padding: 0.7rem 2rem;
+    background: #f2c14f;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    color: hsl(109, 94%, 25%);
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    background: #e0b146;
+}
+
+/* ===== Dashboard general ===== */
+
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.dashboard-card {
+    width: 100%;
+    max-width: 900px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 2rem 2.2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.dashboard-title {
+    font-size: 1.9rem;
+    color: hsl(109, 94%, 25%);
+    margin-bottom: 0.4rem;
+}
+
+.dashboard-welcome {
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+.dashboard-role {
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.badge-role,
+.badge-admin {
+    display: inline-block;
+    padding: 0.1rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    margin-left: 0.3rem;
+}
+
+.badge-role {
+    background-color: #e5f4f0;
+    color: hsl(109, 94%, 25%);
+}
+
+.badge-admin {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.dashboard-section-title {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    color: #111827;
+    margin-bottom: 0.8rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.3rem;
+    margin-top: 0.5rem;
+}
+
+.dashboard-item {
+    background-color: #f9fafb;
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid #e5e7eb;
+}
+
+.dashboard-item h3 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    color: #111827;
+}
+
+.dashboard-item p {
+    font-size: 0.86rem;
+    color: #4b5563;
+    margin-bottom: 0.9rem;
+}
+
+
+/* ===== Admin pages (tablas CRUD) ===== */
+
+.admin-page-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.admin-card {
+    width: 100%;
+    max-width: 1000px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 2rem 2.2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.3rem;
+}
+
+.admin-title {
+    font-size: 1.7rem;
+    color: hsl(109, 94%, 25%);
+}
+
+.admin-subtitle {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin-top: 0.2rem;
+}
+
+.admin-table-wrapper {
+    overflow-x: auto;
+    margin-top: 0.8rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.86rem;
+    text-align: left;
+}
+
+.admin-table thead tr {
+    background-color: hsl(109, 94%, 25%);
+    color: #ffffff;
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #eef2ff;
+}
+
+.badge-status {
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+}
+
+.badge-ok {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge-off {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.admin-link {
+    font-size: 0.84rem;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.admin-link:hover {
+    text-decoration: underline;
+}
+
+.admin-link-danger {
+    color: #b91c1c;
+}
+
+/* ===== Paneles de administración Ecofor ===== */
+
+.admin-page-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.admin-card {
+    width: 100%;
+    max-width: 1000px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 2rem 2.2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.3rem;
+}
+
+.admin-title {
+    font-size: 1.7rem;
+    color: hsl(109, 94%, 25%);
+    margin: 0;
+}
+
+.admin-subtitle {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin-top: 0.2rem;
+}
+
+/* Tabla CRUD de administración */
+
+.admin-table-wrapper {
+    overflow-x: auto;
+    margin-top: 0.8rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.86rem;
+    text-align: left;
+}
+
+.admin-table thead tr {
+    background-color: hsl(109, 94%, 25%); /* verde oscuro */
+    color: #ffffff;
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #eef2ff;
+}
+
+/* Badges de estado */
+
+.badge-status {
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+}
+
+.badge-ok {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge-off {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Links en tablas admin */
+
+.admin-link {
+    font-size: 0.84rem;
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.admin-link:hover {
+    text-decoration: underline;
+}
+
+.admin-link-danger {
+    color: #b91c1c;
+}
+
+/* Tarjetas dentro de admin_panel (usa mismo grid del dashboard) */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.3rem;
+    margin-top: 0.5rem;
+}
+
+.dashboard-item {
+    background-color: #f9fafb;
+    border-radius: 14px;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid #e5e7eb;
+}
+
+.dashboard-item h3 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    color: #111827;
+}
+
+.dashboard-item p {
+    font-size: 0.86rem;
+    color: #4b5563;
+    margin-bottom: 0.9rem;
+}
+
+/* ===== Formularios de administración (crear / editar producto) ===== */
+
+.form-card form {
+    margin-top: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #374151;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="file"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 0.9rem;
+}
+
+.form-group textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #f2c14f;
+    box-shadow: 0 0 0 2px rgba(242,193,79,0.35);
+}
+
+.form-help {
+    display: block;
+    font-size: 0.78rem;
+    color: #6b7280;
+    margin-top: 0.15rem;
+}
+
+.field-error {
+    margin-top: 0.25rem;
+    font-size: 0.78rem;
+    color: #b91c1c;
+}
+
+.form-errors {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #991b1b;
+    font-size: 0.85rem;
+}
+
+.form-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+

@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="checkout-success-container">
+
+    <div class="checkout-card">
+
+        <h1 class="checkout-title">✔ Compra realizada (simulada)</h1>
+        <p class="checkout-subtitle">Gracias, {{ user.first_name|default:user.username }}. Tu pedido ha sido registrado.</p>
+
+        <h2 class="checkout-section-title">Resumen del pedido #{{ pedido.id }}</h2>
+
+        <div class="checkout-table-container">
+            <table class="checkout-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in pedido.items.all %}
+                    <tr>
+                        <td>{{ item.producto.nombre }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td>${{ item.precio_unitario|floatformat:0 }}</td>
+                        <td>${{ item.subtotal|floatformat:0 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="checkout-total">
+            <strong>Total:</strong> ${{ pedido.total|floatformat:0 }}
+        </div>
+
+        <p class="checkout-note">
+            Esta compra es una simulación. En una etapa futura se integrará Webpay u otra pasarela real.
+        </p>
+
+        <div class="checkout-buttons">
+            <a href="{% url 'catalogo_productos' %}" class="btn-primary">Volver al catálogo</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
