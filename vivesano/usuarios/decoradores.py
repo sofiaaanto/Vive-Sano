@@ -24,7 +24,7 @@ def admin_required(view_func):
     return rol_requerido(["admin"])(view_func)
 
 def soporte_required(view_func):
-    return rol_requerido(["soporte"])(view_func)
+    return rol_requerido(["atencion_cliente"])(view_func)
 
 def empresa_required(view_func):
     return rol_requerido(["empresa"])(view_func)

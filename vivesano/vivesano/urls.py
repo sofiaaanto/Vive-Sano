@@ -62,6 +62,7 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
+    path('mensajeria/', include('mensajeria.urls')),
 ]
 
 if settings.DEBUG:

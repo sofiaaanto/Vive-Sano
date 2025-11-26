@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 import re
 
+
 def limpiar_rut(rut: str) -> str:
     return rut.replace(".", "").replace(" ", "").upper()
 
@@ -34,7 +35,7 @@ class Usuario(AbstractUser):
         ("natural", "Persona Natural"),
         ("empresa", "Empresa"),
         ("admin", "Administrador"),
-        ("soporte", "Atención al Cliente"),
+        ("atencion_cliente", "Atención al Cliente"),  # 👈 Cambiar de "soporte" a "atencion_cliente"
     ]
 
     rut = models.CharField(max_length=12, unique=True, blank=True, null=True)
@@ -70,4 +71,4 @@ class Usuario(AbstractUser):
         return self.tipo_cliente == "admin"
 
     def es_soporte(self):
-        return self.tipo_cliente == "soporte"
+        return self.tipo_cliente == "atencion_cliente"

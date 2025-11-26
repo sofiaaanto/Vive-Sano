@@ -4,11 +4,13 @@ from django.conf import settings
 
 class Producto(models.Model):
     CATEGORIAS = [
-        ("abarrotes", "Abarrotes"),
+        ("organicos", "Orgánicos"),
+        ("harinas", "Harinas"),
+        ("sin gluten", "Sin Gluten"),
+        ("s/lacteos", "Sin Lácteos"),
         ("bebidas", "Bebidas"),
-        ("aseo", "Aseo"),
-        ("lacteos", "Lácteos"),
         ("snacks", "Snacks"),
+        ("suplementos", "Suplementos"),
         ("otros", "Otros"),
     ]
 

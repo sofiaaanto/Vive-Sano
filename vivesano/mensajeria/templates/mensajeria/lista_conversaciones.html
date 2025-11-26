@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<div class="container">
+
+    <div class="card">
+        <h2 class="titulo">Mis Conversaciones</h2>
+
+        {% if usuarios %}
+            <ul class="lista">
+                {% for usuario in usuarios %}
+                <li class="item">
+                    <a class="link" href="{% url 'mensajeria:chat' usuario.id %}">
+                        {{ usuario.username }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tienes conversaciones todavía.</p>
+        {% endif %}
+
+        <div style="margin-top: 20px; text-align:center;">
+            <a href="{% url 'mensajeria:chat_default' %}" class="btn btn-secondary">
+                Hablar con Soporte
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

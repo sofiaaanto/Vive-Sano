@@ -14,11 +14,22 @@
         {% endif %}
         <div class="product-name">{{ p.nombre }}</div>
         <div class="product-price">${{ p.precio }}</div>
-        <form method="post" action="{% url 'agregar_al_carrito' p.id %}">
-          {% csrf_token %}
-          <input type="number" name="cantidad" value="1" min="1" max="{{ p.stock }}" class="form-control" style="margin-bottom:0.6rem;">
-          <button type="submit" class="btn btn-primary" style="width:100%;">Agregar al carrito</button>
-        </form>
+        
+        {% if p.stock > 0 %}
+          <form method="post" action="{% url 'agregar_al_carrito' p.id %}">
+            {% csrf_token %}
+            <input type="number" name="cantidad" value="1" min="1" max="{{ p.stock }}" class="form-control" style="margin-bottom:0.6rem;">
+            <button type="submit" class="btn btn-primary" style="width:100%;">Agregar al carrito</button>
+          </form>
+        {% else %}
+          <div class="badge-status badge-off" style="display:block; text-align:center; margin-top:0.6rem; margin-bottom:0.6rem;">
+            Fuera de stock
+          </div>
+          <form method="post" action="{% url 'solicitar_reserva' p.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning" style="width:100%;">Solicitar reserva</button>
+          </form>
+        {% endif %}
       </div>
     {% empty %}
       <p>No hay productos disponibles.</p>

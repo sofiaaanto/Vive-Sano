@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="card">
+
+        <h2 class="titulo">Clientes que solicitaron soporte</h2>
+
+        {% if clientes %}
+        <ul class="lista">
+            {% for cliente in clientes %}
+                <li class="item">
+                    <a class="link" href="{% url 'mensajeria:chat' cliente.id %}">
+                        {{ cliente.username }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>No hay mensajes nuevos.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

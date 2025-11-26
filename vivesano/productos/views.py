@@ -6,6 +6,7 @@ from .carrito import Carrito
 from decimal import Decimal
 from .models import Producto, Pedido, PedidoItem
 from .descuentos import descuento_por_cantidad_empresa
+from django.contrib import messages
 
 
 @admin_required
@@ -64,7 +65,7 @@ def eliminar_producto(request, id):
 @login_required
 def catalogo(request):
     """Catálogo de productos para clientes (natural / empresa)."""
-    productos = Producto.objects.filter(activo=True, stock__gt=0)
+    productos = Producto.objects.filter(activo=True)  # Remover: stock__gt=0
     return render(request, "productos/catalogo.html", {"productos": productos})
 
 @login_required
@@ -174,3 +175,11 @@ def finalizar_compra(request):
     }
 
     return render(request, "productos/compra_exitosa.html", contexto)
+
+@login_required
+def solicitar_reserva(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    # Aquí crear un registro de reserva
+    # Ejemplo: Reserva.objects.create(usuario=request.user, producto=producto)
+    messages.success(request, f"Reserva solicitada para {producto.nombre}")
+    return redirect('catalogo_productos')  
