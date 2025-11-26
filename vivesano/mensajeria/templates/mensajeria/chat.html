@@ -6,9 +6,9 @@
 <div class="container">
     <div class="dashboard-card">
 
-        <h1 class="dashboard-title">Chat con el Asesor Virtual</h1>
+        <h1 class="dashboard-title">Chat con {{ other_user.username }}</h1>
         <p class="dashboard-welcome">
-            Aquí puedes conversar con el asistente y resolver dudas al instante.
+            Aquí puedes conversar con tu asesor.
         </p>
 
         <!-- Caja del Chat -->
@@ -26,7 +26,8 @@
                 ">
                 
                 {% for msg in mensajes %}
-                    {% if msg.remitente == 'usuario' %}
+                    {% if msg.sender.id == user.id %}
+                        <!-- Mensaje enviado -->
                         <div style="
                             align-self: flex-end;
                             background: #e1f7e7;
@@ -35,9 +36,10 @@
                             max-width: 75%;
                             border-radius: 18px;
                         ">
-                            {{ msg.texto }}
+                            {{ msg.content }}
                         </div>
                     {% else %}
+                        <!-- Mensaje recibido -->
                         <div style="
                             align-self: flex-start;
                             background: #f1f1f1;
@@ -46,19 +48,21 @@
                             max-width: 75%;
                             border-radius: 18px;
                         ">
-                            {{ msg.texto }}
+                            {{ msg.content }}
                         </div>
                     {% endif %}
+                {% empty %}
+                    <p>No hay mensajes todavía.</p>
                 {% endfor %}
             </div>
 
             <!-- Formulario de envío -->
-            <form method="POST" style="margin-top: 1rem;">
+            <form method="POST" action="{% url 'mensajeria:chat' other_user.id %}">
                 {% csrf_token %}
 
                 <div class="form-group">
                     <label class="form-label">Tu mensaje</label>
-                    <textarea name="mensaje" class="form-group" 
+                    <textarea name="content" 
                         style="
                             width: 100%;
                             min-height: 80px;
@@ -67,7 +71,8 @@
                             border: 1px solid #cbd2e1;
                             font-size: 0.9rem;
                             resize: vertical;
-                        "></textarea>
+                        "
+                        required></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="margin-top: 0.6rem;">
