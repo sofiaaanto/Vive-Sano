@@ -10,8 +10,6 @@ User = get_user_model()
 def obtener_agente_soporte():
     return User.objects.filter(tipo_cliente="atencion_cliente").first()
 
-
-# Lista de conversaciones del usuario
 def lista_conversaciones(request):
     user = request.user
 
@@ -22,7 +20,6 @@ def lista_conversaciones(request):
         .order_by("-last_msg")
     )
 
-    # Convertir ids a usuarios evitando duplicados
     usuarios_conversando = []
     ids_agregados = set()
 
@@ -31,7 +28,17 @@ def lista_conversaciones(request):
 
         if partner_id not in ids_agregados:
             ids_agregados.add(partner_id)
-            usuarios_conversando.append(User.objects.get(id=partner_id))
+
+            partner = User.objects.get(id=partner_id)
+
+            # Contar no leídos de ese usuario → hacia ti
+            partner.unread_count = Message.objects.filter(
+                sender=partner,
+                receiver=user,
+                is_read=False
+            ).count()
+
+            usuarios_conversando.append(partner)
 
     return render(request, "mensajeria/lista_conversaciones.html", {
         "usuarios": usuarios_conversando
@@ -91,10 +98,6 @@ def chat(request, user_id=None):
 
 
 def soporte_conversaciones(request):
-    # Solo soporte puede ver esto
-    if request.user.tipo_cliente != "atencion_cliente":
-        return redirect("mensajeria:conversaciones")
-
     conversaciones = (
         Message.objects.filter(receiver=request.user)
         .values("sender")
@@ -102,7 +105,15 @@ def soporte_conversaciones(request):
         .order_by("-last_msg")
     )
 
-    clientes = [User.objects.get(id=c["sender"]) for c in conversaciones]
+    clientes = []
+    for conv in conversaciones:
+        cliente = User.objects.get(id=conv["sender"])
+        cliente.unread_count = Message.objects.filter(
+            sender=cliente,
+            receiver=request.user,
+            is_read=False
+        ).count()
+        clientes.append(cliente)
 
     return render(request, "mensajeria/soporte_conversaciones.html", {
         "clientes": clientes

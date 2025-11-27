@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from usuarios.decoradores import admin_required
+from usuarios.models import Usuario
 from .models import Producto
 from django.contrib.auth.decorators import login_required
 from .carrito import Carrito
@@ -7,6 +8,7 @@ from decimal import Decimal
 from .models import Producto, Pedido, PedidoItem
 from .descuentos import descuento_por_cantidad_empresa
 from django.contrib import messages
+from mensajeria.models import Message
 
 
 @admin_required
@@ -176,10 +178,31 @@ def finalizar_compra(request):
 
     return render(request, "productos/compra_exitosa.html", contexto)
 
+
 @login_required
 def solicitar_reserva(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
-    # Aquí crear un registro de reserva
-    # Ejemplo: Reserva.objects.create(usuario=request.user, producto=producto)
-    messages.success(request, f"Reserva solicitada para {producto.nombre}")
-    return redirect('catalogo_productos')  
+
+    # Buscar un usuario del tipo "atencion"
+    soporte = Usuario.objects.filter(tipo_cliente="atencion_cliente").first()
+
+    if not soporte:
+        messages.error(request, "No existe ningún usuario de atención al cliente.")
+        return redirect("catalogo_productos")
+
+    contenido = (
+        f"📌 **Solicitud de producto**\n\n ---"
+        f"Usuario: {request.user.username}\n ---"
+        f"Producto ID: {producto.id}\n ---"
+        f"Producto: {producto.nombre}\n ---"
+        f"Solicitud enviada automáticamente a atención al cliente. ---"
+    )
+
+    Message.objects.create(
+        sender=request.user,
+        receiver=soporte,
+        content=contenido
+    )
+
+    messages.success(request, "Tu solicitud fue enviada al equipo de atención al cliente.")
+    return redirect("mensajeria:chat", user_id=soporte.id)

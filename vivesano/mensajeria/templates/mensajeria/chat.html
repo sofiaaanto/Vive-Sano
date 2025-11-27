@@ -4,11 +4,25 @@
 {% block content %}
 
 <div class="container">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary"
+
+   style="
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        color: #000000b3;
+        font-weight: 600;
+        margin-bottom: 1rem;
+   ">
+    ← Volver
+    </a>
+
     <div class="dashboard-card">
 
         <h1 class="dashboard-title">Chat con {{ other_user.username }}</h1>
         <p class="dashboard-welcome">
-            Aquí puedes conversar con tu asesor.
+            Aquí puedes conversar con Atención al Cliente.
         </p>
 
         <!-- Caja del Chat -->
@@ -84,5 +98,13 @@
 
     </div>
 </div>
+
+<script>
+    // Cuando el chat cargue, baja automáticamente al final
+    const box = document.getElementById("chat-box");
+    if (box) {
+        box.scrollTop = box.scrollHeight;
+    }
+</script>
 
 {% endblock %}

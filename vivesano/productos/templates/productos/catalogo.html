@@ -27,7 +27,8 @@
           </div>
           <form method="post" action="{% url 'solicitar_reserva' p.id %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-warning" style="width:100%;">Solicitar reserva</button>
+            <a href="{% url 'dashboard' %}"></a>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Solicitar reserva</button>
           </form>
         {% endif %}
       </div>
