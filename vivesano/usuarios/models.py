@@ -51,8 +51,11 @@ class Usuario(AbstractUser):
                 raise ValueError("El RUT ingresado no es válido.")
             self.rut = limpiar_rut(self.rut)
 
+
         if self.is_superuser and not self.tipo_cliente:
             self.tipo_cliente = "admin"
+        # Evita creación de admin o atención_cliente si NO es superusuario
+
 
         super().save(*args, **kwargs)
 

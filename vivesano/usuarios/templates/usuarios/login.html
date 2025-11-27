@@ -23,8 +23,21 @@
 
       <div class="form-group">
         <label class="form-label">Contraseña</label>
-        {{ form.password }}
+
+        <div style="display: flex; align-items: center;">
+          {{ form.password }}
+
+          <!-- Botón para mostrar/ocultar -->
+          <button 
+            type="button" 
+            id="togglePassword" 
+            style="margin-left: 8px; background:none; border:none; font-size:1.2rem; cursor:pointer;"
+          >
+            👁️
+          </button>
+        </div>
       </div>
+      
 
       <div style="margin-top:1.5rem; text-align:center;">
         <button type="submit" class="btn btn-primary" style="width: 70%;">Ingresar</button>
@@ -41,4 +54,22 @@
     </form>
   </div>
 </div>
+
+<!-- Script para mostrar/ocultar contraseña -->
+<script>
+document.getElementById("togglePassword").addEventListener("click", function () {
+    const passwordField = document.getElementById("id_password");
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        this.textContent = "🔒"; 
+    } else {
+        passwordField.type = "password";
+        this.textContent = "🔍"; 
+    }
+});
+</script>
+
 {% endblock %}
+<!--Django genera automáticamente el id del input de contraseña como: id_password
+Por eso en el script se usa: document.getElementById("id_password") -->
