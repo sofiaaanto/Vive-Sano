@@ -60,9 +60,17 @@ def editar_producto(request, id):
 
 @admin_required
 def eliminar_producto(request, id):
-    producto = get_object_or_404(Producto, id=id)
-    producto.delete()
-    return redirect("listar_productos")
+    try:
+        producto = get_object_or_404(Producto, id=id)
+        if producto.stock > 0:
+            messages.error(request, "No se puede eliminar un producto con stock disponible.")
+            return redirect("listar_productos")
+        else:
+            producto.delete()
+            return redirect("listar_productos")
+    except Exception as e:
+        messages.error(request, f"Error al eliminar el producto: {e}")
+        return redirect("listar_productos")
 
 @login_required
 def catalogo(request):
