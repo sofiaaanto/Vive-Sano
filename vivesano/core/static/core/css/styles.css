@@ -89,6 +89,12 @@ main {
 .btn-secondary:hover {
     background-color: #cfd5dd;
 }
+.btn-third {
+    background-color: #e1e5ea;
+    color:hsl(35, 89%, 45%);
+    background-color: #93a9c7;
+}
+
 
 .btn-link {
     background: none;

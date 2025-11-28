@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Catálogo - Ecofor Market{% endblock %}
+{% block title %}Catálogo - Vive Sano{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -28,7 +28,7 @@
           <form method="post" action="{% url 'solicitar_reserva' p.id %}">
             {% csrf_token %}
             <a href="{% url 'dashboard' %}"></a>
-            <button type="submit" class="btn btn-primary" style="width:100%;">Solicitar reserva</button>
+            <button type="submit" class="btn btn-third" style="width:100%;">Solicitar reserva</button>
           </form>
         {% endif %}
       </div>

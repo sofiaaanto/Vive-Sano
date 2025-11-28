@@ -15,8 +15,8 @@ def registrar(request):
             usuario = form.save(commit=False)
 
             # Seguridad adicional
-            if usuario.rol in ["administrador", "atencion"]:
-                return HttpResponseForbidden("No puedes asignar ese rol.")
+            if usuario.tipo_cliente in ("admin", "atencion_cliente"):
+                return HttpResponseForbidden("No puedes asignar ese tipo de usuario.")
 
             usuario.save()
             return redirect("login")

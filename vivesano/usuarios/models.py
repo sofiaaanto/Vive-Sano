@@ -35,7 +35,7 @@ class Usuario(AbstractUser):
         ("natural", "Persona Natural"),
         ("empresa", "Empresa"),
         ("admin", "Administrador"),
-        ("atencion_cliente", "Atención al Cliente"),  # 👈 Cambiar de "soporte" a "atencion_cliente"
+        ("atencion_cliente", "Atención al Cliente"),  
     ]
 
     rut = models.CharField(max_length=12, unique=True, blank=True, null=True)

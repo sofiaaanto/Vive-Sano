@@ -16,7 +16,7 @@ class Producto(models.Model):
 
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(blank=True)
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    precio = models.DecimalField(max_digits=10, decimal_places=0)
     stock = models.PositiveIntegerField(default=0)
     categoria = models.CharField(max_length=20, choices=CATEGORIAS, default="otros")
     activo = models.BooleanField(default=True)
@@ -55,7 +55,7 @@ class PedidoItem(models.Model):
     pedido = models.ForeignKey(Pedido, related_name="items", on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     cantidad = models.PositiveIntegerField()
-    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=0)
 
     def subtotal(self):
         return self.cantidad * self.precio_unitario

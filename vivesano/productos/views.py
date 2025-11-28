@@ -72,7 +72,7 @@ def eliminar_producto(request, id):
         messages.error(request, f"Error al eliminar el producto: {e}")
         return redirect("listar_productos")
 
-@login_required
+# Quitar @login_required para que cualquiera vea el catálogo
 def catalogo(request):
     """Catálogo de productos para clientes (natural / empresa)."""
     productos = Producto.objects.filter(activo=True)  # Remover: stock__gt=0
