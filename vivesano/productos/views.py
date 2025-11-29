@@ -9,7 +9,7 @@ from .models import Producto, Pedido, PedidoItem
 from .descuentos import descuento_por_cantidad_empresa
 from django.contrib import messages
 from mensajeria.models import Message
-
+from django.db.models import Sum
 
 @admin_required
 def listar_productos(request):
@@ -191,8 +191,8 @@ def finalizar_compra(request):
 def solicitar_reserva(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
 
-    # Buscar un usuario del tipo "atencion"
-    soporte = Usuario.objects.filter(tipo_cliente="atencion_cliente").first()
+    # Buscar un usuario del tipo "atencion" de forma aleatoria
+    soporte = Usuario.objects.filter(tipo_cliente="atencion_cliente").order_by('?').first()
 
     if not soporte:
         messages.error(request, "No existe ningún usuario de atención al cliente.")
@@ -214,3 +214,91 @@ def solicitar_reserva(request, producto_id):
 
     messages.success(request, "Tu solicitud fue enviada al equipo de atención al cliente.")
     return redirect("mensajeria:chat", user_id=soporte.id)
+
+@login_required
+def ver_estado_pedido(request, pedido_id):
+    """
+    Vista para que un usuario vea el estado y detalle de un pedido que ya realizó.
+    No altera la lógica de finalizar_compra.
+    """
+    pedido = get_object_or_404(Pedido, id=pedido_id, usuario=request.user)
+
+    items = PedidoItem.objects.filter(pedido=pedido)
+
+    context = {
+        "pedido": pedido,
+        "items": items,
+    }
+
+    return render(request, "productos/pedido_detalle.html", context)
+
+@login_required
+def mis_pedidos(request):
+    pedidos = Pedido.objects.filter(usuario=request.user).order_by("-creado")
+    return render(request, "productos/mis_pedidos.html", {"pedidos": pedidos})
+
+@login_required
+def cancelar_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id, usuario=request.user)
+
+    if pedido.estado != "pagado":
+        messages.error(request, "Solo se pueden cancelar pedidos en estado 'pagado'.")
+        return redirect("mis_pedidos")
+
+    pedido.estado = "cancelado"
+    pedido.save()
+
+    # Restaurar stock de los productos
+    items = PedidoItem.objects.filter(pedido=pedido)
+    for item in items:
+        producto = item.producto
+        producto.stock += item.cantidad
+        producto.save()
+
+    messages.success(request, "Tu pedido ha sido cancelado exitosamente.")
+    return redirect("mis_pedidos")
+
+@login_required
+def listar_pedidos(request):
+    """Vista para que el admin vea todos los pedidos realizados."""
+    pedidos = Pedido.objects.all().order_by("-creado")
+    return render(request, "productos/listar_pedidos.html", {"pedidos": pedidos})
+
+@login_required
+def editar_pedido(request, id):
+    pedido = get_object_or_404(Pedido, id=id)
+
+    if request.method == "POST":
+        pedido.estado = request.POST.get("estado")
+        pedido.save()
+        return redirect("listar_pedidos")
+
+    return render(request, "productos/editar_pedido.html", {"pedido": pedido}) 
+
+@login_required
+def eliminar_pedido(request, id):
+    try:
+        pedido = get_object_or_404(Pedido, id=id)
+        pedido.delete()
+        return redirect("listar_pedidos")
+    except Exception as e:
+        messages.error(request, f"Error al eliminar el pedido: {e}")
+        return redirect("listar_pedidos")
+    
+@login_required
+def editar_estado_pedido(request, id):
+    pedido = get_object_or_404(Pedido, id=id)
+
+    if request.method == "POST":
+        nuevo_estado = request.POST.get("estado")
+
+        if nuevo_estado not in dict(Pedido.ESTADOS):
+            messages.error(request, "Estado inválido.")
+            return redirect("listar_pedidos")
+
+        pedido.estado = nuevo_estado
+        pedido.save()
+        messages.success(request, "Estado actualizado correctamente.")
+        return redirect("listar_pedidos")
+
+    return redirect("listar_pedidos")

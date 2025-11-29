@@ -21,7 +21,7 @@ class Producto(models.Model):
     categoria = models.CharField(max_length=20, choices=CATEGORIAS, default="otros")
     activo = models.BooleanField(default=True)
 
-    # 👇 Nuevo campo
+
     imagen = models.ImageField(
         upload_to="productos/",
         blank=True,
@@ -39,6 +39,10 @@ class Pedido(models.Model):
     ESTADOS = [
         ("pendiente", "Pendiente (sin pago real)"),
         ("pagado", "Pagado (simulado)"),
+        ("en camino", "En camino"),
+        ("entregado", "Entregado"),
+        ("cancelado", "Cancelado"),
+        ("modificado", "Modificado"),
     ]
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

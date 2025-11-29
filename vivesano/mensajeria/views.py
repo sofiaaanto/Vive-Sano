@@ -8,7 +8,7 @@ User = get_user_model()
 
 # Selecciona automáticamente al soporte
 def obtener_agente_soporte():
-    return User.objects.filter(tipo_cliente="atencion_cliente").first()
+    return User.objects.filter(tipo_cliente="atencion_cliente").order_by('?').first()
 
 def lista_conversaciones(request):
     user = request.user
