@@ -47,12 +47,25 @@
                 </tr>
                 {% endfor %}
                 <div style="margin-top:1rem; text-align:right;">
-                    <a href="{% url 'cancelar_pedido' pedido.id %}" class="btn-primary btn-danger"
+                    <a href="{% url 'cancelar_pedido' pedido.id %}" class="btn-primary btn-danger" 
                         onclick="return confirm('¿Estás seguro que quieres cancelar este pedido?');">
                         Cancelar
                     </a>
 
                 </div>
+                {% if pedido.estado == 'cancelado' %}
+                <div>
+                    <p style="color: red; font-weight: bold;" >
+                    Este pedido ha sido cancelado.
+                    </p>
+                </div>
+                <div style="margin-top:1rem; text-align:right;">
+                        <div>
+                            <a href="{% url 'solicitar_reembolso' pedido.id %}" class="btn-primary"
+                            >Solicitar Reembolso</a>
+                        </div>
+                    </div>
+                {% endif %}
             </table>
 </div>            
 {% endblock %}

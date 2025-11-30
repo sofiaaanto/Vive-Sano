@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="container">
-<div class="container"></div>
     <a href="{% url 'dashboard' %}" class="btn btn-secondary"
 
    style="
@@ -19,6 +18,13 @@
     ← Volver
     </a>
 
+    <a href="{% url 'listar_pedidos' %}" class="btn btn-secondary"
+        style="display: inline-flex; align-items: center; gap: 6px;
+               text-decoration: none; color: #000000b3;
+               font-weight: 600; margin-bottom: 1rem;">
+        ← Volver
+    </a>
+
     <h2>Estado del Pedido #{{ pedido.id }}</h2>
 
     <p><strong>Fecha:</strong> {{ pedido.creado }}</p>
@@ -26,33 +32,31 @@
     <p><strong>Total pagado:</strong> ${{ pedido.total }}</p>
 
     <hr>
-    <div class="container"></div>
-        <h3>Productos</h3>
 
+    <h3>Productos del pedido</h3>
 
-            <table class="cart-table">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio unitario</th>
-                    <th>Subtotal</th>
-                </tr>
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio unitario</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
 
-                {% for item in items %}
-                <tr>
-                    <td>{{ item.producto.nombre }}</td>
-                    <td>{{ item.cantidad }}</td>
-                    <td>${{ item.precio_unitario }}</td>
-                    <td>${{ item.subtotal }}</td>
-                </tr>
-                {% endfor %}
-                <div style="margin-top:1rem; text-align:right;">
-                    <a href="{% url 'cancelar_pedido' pedido.id %}" class="btn-primary btn-danger"
-                        onclick="return confirm('¿Estás seguro que quieres cancelar este pedido?');">
-                        Cancelar
-                    </a>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.producto.nombre }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>${{ item.precio_unitario }}</td>
+                <td>${{ item.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-                </div>
-            </table>
-</div>            
+</div>
 {% endblock %}

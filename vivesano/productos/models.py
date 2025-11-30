@@ -41,7 +41,6 @@ class Pedido(models.Model):
         ("pagado", "Pagado (simulado)"),
         ("en camino", "En camino"),
         ("entregado", "Entregado"),
-        ("cancelado", "Cancelado"),
         ("modificado", "Modificado"),
     ]
 

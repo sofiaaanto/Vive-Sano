@@ -52,6 +52,91 @@ main {
     font-size: 0.85rem;
 }
 
+/* === NAVBAR MEJORADO SIN CAMBIAR TU HTML === */
+
+.navbar {
+    background-color: hsl(109, 94%, 25%);
+    padding: 0.9rem 2rem;
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Logo */
+.navbar-logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Menu derecho */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+/* Enlaces */
+.navbar-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.35rem 0.65rem;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+.navbar-nav a:hover {
+    background: rgba(255, 255, 255, 0.23);
+}
+
+/* Texto del usuario */
+.navbar-user {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+}
+
+/* Botón de crear cuenta destacado */
+.navbar-nav a[href$="registrar"] {
+    background: #f2c14f;
+    color: #044a15;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 0.45rem 1rem;
+}
+
+.navbar-nav a[href$="registrar"]:hover {
+    background: #e3b63d;
+}
+
+/* Botón especial para CTA */
+.signup-btn {
+    background: #f2c14f;
+    color: hsl(109, 94%, 25%) !important;
+    font-weight: 700;
+    padding: 0.45rem 1rem !important;
+    border-radius: 999px;
+}
+
+.signup-btn:hover {
+    background: #e6b53c;
+}
+
+/* Logout como botón sutil */
+.logout-btn {
+    opacity: 0.9;
+}
+
+.logout-btn:hover {
+    opacity: 1;
+}
+
 /* ===== Contenedor principal ===== */
 .container {
     max-width: 1100px;

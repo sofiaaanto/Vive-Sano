@@ -1,7 +1,7 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from usuarios.decoradores import admin_required
 from usuarios.models import Usuario
-from .models import Producto
 from django.contrib.auth.decorators import login_required
 from .carrito import Carrito
 from decimal import Decimal
@@ -24,7 +24,7 @@ def crear_producto(request):
         stock = request.POST.get("stock")
         categoria = request.POST.get("categoria")
         descripcion = request.POST.get("descripcion")
-        imagen = request.FILES.get("imagen")  # 👈 nuevo
+        imagen = request.FILES.get("imagen")  
 
         Producto.objects.create(
             nombre=nombre,
@@ -32,7 +32,7 @@ def crear_producto(request):
             stock=stock,
             categoria=categoria,
             descripcion=descripcion,
-            imagen=imagen,   # 👈 nuevo
+            imagen=imagen,   
         )
         return redirect("listar_productos")
 
@@ -49,7 +49,7 @@ def editar_producto(request, id):
         producto.categoria = request.POST.get("categoria")
         producto.descripcion = request.POST.get("descripcion")
 
-        # 👇 Si viene una nueva imagen, la reemplazamos
+
         if request.FILES.get("imagen"):
             producto.imagen = request.FILES["imagen"]
 
@@ -72,10 +72,10 @@ def eliminar_producto(request, id):
         messages.error(request, f"Error al eliminar el producto: {e}")
         return redirect("listar_productos")
 
-# Quitar @login_required para que cualquiera vea el catálogo
+
 def catalogo(request):
     """Catálogo de productos para clientes (natural / empresa)."""
-    productos = Producto.objects.filter(activo=True)  # Remover: stock__gt=0
+    productos = Producto.objects.filter(activo=True)  
     return render(request, "productos/catalogo.html", {"productos": productos})
 
 @login_required
@@ -130,7 +130,7 @@ def finalizar_compra(request):
 
     total_bruto = Decimal("0.00")      # sin descuento
     total_descuento = Decimal("0.00")  # suma de descuentos
-    total_final = Decimal("0.00")      # total a pagar (simulado)
+    total_final = Decimal("0.00")      # total a pagar 
 
     for item in carrito:
         producto = item["producto"]
@@ -186,6 +186,34 @@ def finalizar_compra(request):
 
     return render(request, "productos/compra_exitosa.html", contexto)
 
+
+@login_required
+def solicitar_reembolso(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id, usuario=request.user)
+
+    # Buscar un usuario del tipo "atencion" de forma aleatoria
+    soporte = Usuario.objects.filter(tipo_cliente="atencion_cliente").order_by('?').first()
+
+    if not soporte:
+        messages.error(request, "No existe ningún usuario de atención al cliente.")
+        return redirect("mis_pedidos")
+
+    contenido = (
+        f"📌 **Solicitud de reembolso**\n\n ---"
+        f"Usuario: {request.user.username}\n ---"
+        f"Pedido ID: {pedido.id}\n ---"
+        f"Total: ${pedido.total}\n ---"
+        f"Solicitud enviada automáticamente a atención al cliente. ---"
+    )
+
+    Message.objects.create(
+        sender=request.user,
+        receiver=soporte,
+        content=contenido
+    )
+
+    messages.success(request, "Tu solicitud de reembolso fue enviada al equipo de atención al cliente.")
+    return redirect("mensajeria:chat", user_id=soporte.id)
 
 @login_required
 def solicitar_reserva(request, producto_id):
@@ -261,20 +289,18 @@ def cancelar_pedido(request, pedido_id):
 @login_required
 def listar_pedidos(request):
     """Vista para que el admin vea todos los pedidos realizados."""
-    pedidos = Pedido.objects.all().order_by("-creado")
+    pedidos = Pedido.objects.all().order_by("-creado").exclude(estado='cancelado')
     return render(request, "productos/listar_pedidos.html", {"pedidos": pedidos})
 
 @login_required
 def editar_pedido(request, id):
     pedido = get_object_or_404(Pedido, id=id)
+    items = PedidoItem.objects.filter(pedido=pedido)  # ESTO ES LO IMPORTANTE
 
-    if request.method == "POST":
-        pedido.estado = request.POST.get("estado")
-        pedido.save()
-        return redirect("listar_pedidos")
-
-    return render(request, "productos/editar_pedido.html", {"pedido": pedido}) 
-
+    return render(request, 'productos/editar_pedido.html', {
+        'pedido': pedido,
+        'items': items,
+    })
 @login_required
 def eliminar_pedido(request, id):
     try:
@@ -287,18 +313,26 @@ def eliminar_pedido(request, id):
     
 @login_required
 def editar_estado_pedido(request, id):
-    pedido = get_object_or_404(Pedido, id=id)
+    if request.user.tipo_cliente != "atencion_cliente":
+        return HttpResponseForbidden("No tienes permiso para modificar pedidos.")
 
-    if request.method == "POST":
-        nuevo_estado = request.POST.get("estado")
+    else:
+        pedido = get_object_or_404(Pedido, id=id)
 
-        if nuevo_estado not in dict(Pedido.ESTADOS):
-            messages.error(request, "Estado inválido.")
+        if request.method == "POST":
+            nuevo_estado = request.POST.get("estado")
+
+            if nuevo_estado not in dict(Pedido.ESTADOS):
+                messages.error(request, "Estado inválido.")
+                return redirect("listar_pedidos")
+
+            pedido.estado = nuevo_estado
+            pedido.save()
+            messages.success(request, "Estado actualizado correctamente.")
             return redirect("listar_pedidos")
 
-        pedido.estado = nuevo_estado
-        pedido.save()
-        messages.success(request, "Estado actualizado correctamente.")
         return redirect("listar_pedidos")
 
-    return redirect("listar_pedidos")
+
+
+

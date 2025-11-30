@@ -1,9 +1,53 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.db.models import Q, Max
+from usuarios.backends import Usuario
 from .models import Message
+from django.contrib import messages
+from .models import Message
+from .forms import BuscarClienteForm
 
 User = get_user_model()
+
+def buscar_cliente_chat(request):
+    # Solo atención al cliente
+    if not request.user.is_authenticated or request.user.tipo_cliente != "atencion_cliente":
+        messages.error(request, "No tienes permiso para acceder a esta sección.")
+        return redirect("dashboard")
+
+    form = BuscarClienteForm(request.GET or None)
+    resultados = Usuario.objects.none()
+
+    if form.is_valid():
+        query = form.cleaned_data["query"].strip()
+
+        resultados = Usuario.objects.filter(
+            Q(rut__icontains=query) |
+            Q(username__icontains=query)
+        ).exclude(tipo_cliente="atencion_cliente")
+
+        if not resultados.exists():
+            messages.warning(request, "No se encontró ningún cliente con ese RUT o usuario.")
+
+    return render(request, "mensajeria/buscar_cliente.html", {
+        "form": form,
+        "resultados": resultados,
+    })
+    
+def iniciar_chat_con_cliente(request, id_cliente):
+    if request.user.tipo_cliente != "atencion_cliente":
+        messages.error(request, "No tienes permiso.")
+        return redirect("dashboard")
+
+    cliente = get_object_or_404(Usuario, id=id_cliente)
+
+    # Buscar chat existente
+    chat, creado = Message.objects.get_or_create(
+        usuario=cliente,
+        soporte=request.user
+    )
+
+    return redirect("chat_detalle", chat_id=chat.id)
 
 
 # Selecciona automáticamente al soporte

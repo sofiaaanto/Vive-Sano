@@ -22,7 +22,21 @@
       <div class="alert alert-info" role="alert">
         <strong>Nota:</strong> Como usuario de soporte, tus funcionalidades están limitadas. Contacta con administración para más información.
       </div>
+        <div class="dashboard-item">
+          <h3>Gestión de pedidos</h3>
+          <p>Editar, revisar y gestionar pedidos realizados.</p>
+          <a href="{% url 'listar_pedidos' %}" class="btn btn-primary">
+              Gestionar Pedidos (CRUD)
+          </a>
+        </div>
+        <div class="dashboard-item">
+          <h3>Buscar Cliente</h3>
+          <a href="{% url 'mensajeria:buscar_cliente' %}" class="btn btn-primary">
+            Buscar cliente y abrir chat
+        </a>
+        </div>
       
+
     {% endif %}
     {% if user.es_admin %}
       <h2 class="dashboard-section-title">Panel de Administrador</h2>
@@ -32,7 +46,7 @@
           <h3>Gestión de productos</h3>
           <p>Crear, editar y desactivar productos del catálogo.</p>
           <a href="{% url 'listar_productos' %}" class="btn btn-primary">
-              Gestionar productos (CRUD)
+              Gestionar Productos (CRUD)
           </a>
         </div>
       <div class="dashboard-grid">
@@ -40,14 +54,7 @@
           <h3>Gestión de pedidos</h3>
           <p>Editar, revisar y gestionar pedidos realizados.</p>
           <a href="{% url 'listar_pedidos' %}" class="btn btn-primary">
-              Gestionar pedidos (CRUD)
-          </a>
-        </div>
-        <div class="dashboard-item">
-          <h3>Gestión de usuarios</h3>
-          <p>Administrar cuentas desde el panel estándar de Django.</p>
-          <a href="{% url 'admin:usuarios_usuario_changelist' %}" class="btn btn-secondary">
-            Gestionar usuarios (Django admin)
+              Gestionar Pedidos (CRUD)
           </a>
         </div>
 

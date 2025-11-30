@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Buscar Cliente - Atención al Cliente{% endblock %}
+
+{% block content %}
+<div class="container">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary"
+
+   style="
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        color: #000000b3;
+        font-weight: 600;
+        margin-bottom: 1rem;
+   ">
+    ← Volver
+    </a>
+    <h2>Buscar cliente para iniciar chat</h2>
+
+    <form method="GET" class="form-inline mb-3">
+        {{ form.query }}
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    <hr>
+
+    {% if resultados %}
+        <h3>Resultados</h3>
+
+        <table class="table">
+            <tr>
+                <th>Usuario</th>
+                <th>RUT</th>
+                <th>Acción</th>
+            </tr>
+
+            {% for u in resultados %}
+                <tr>
+                    <td>
+                        <a href="{% url 'mensajeria:chat' u.id %}">
+                            {{ u.username }} ({{ u.rut }})
+                        </a>
+                    </td>
+                    <td>{{ u.rut }}</td>
+                    <td>
+                        <a href="{% url 'mensajeria:chat' u.id %}" class="btn btn-success">
+                            Abrir Chat
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+</div>
+{% endblock %}
