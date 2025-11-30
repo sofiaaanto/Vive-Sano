@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -10,23 +11,32 @@ from .decoradores import admin_required
 def registrar(request):
     if request.method == "POST":
         form = RegistroForm(request.POST)
-
         if form.is_valid():
-            usuario = form.save(commit=False)
+            try:
+                # Intentamos guardar el usuario. Si el modelo lanza ValidationError
+                # (por ej. rut inválido) lo capturamos y mostramos en el form.
+                form.save()
+                # Si quieres enviar mensaje:
+                # messages.success(request, "Cuenta creada correctamente.")
+                return redirect("login")
+            except ValidationError as e:
+                # e puede ser ValidationError con message_dict o message
+                # Normalizamos y añadimos los errores correspondientes al formulario.
 
-            # Seguridad adicional
-            if usuario.tipo_cliente in ("admin", "atencion_cliente"):
-                return HttpResponseForbidden("No puedes asignar ese tipo de usuario.")
-
-            usuario.save()
-            return redirect("login")
-
+                # Si trae message_dict (ej. {"rut": ["msg"]}), lo usamos:
+                if hasattr(e, "message_dict"):
+                    for field, msgs in e.message_dict.items():
+                        for m in msgs:
+                            form.add_error(field, m)
+                else:
+                    # Mensaje genérico
+                    msg = "El RUT ingresado no es válido."
+                    form.add_error("rut", msg)
+        # si form no es válido, se renderiza nuevamente con errores (incluido rut)
     else:
         form = RegistroForm()
 
     return render(request, "usuarios/registrar.html", {"form": form})
-
-
 @login_required
 def dashboard(request):
     usuario = request.user

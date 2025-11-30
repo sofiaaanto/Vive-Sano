@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 import re
+from django.forms import ValidationError
 
 
 def limpiar_rut(rut: str) -> str:
@@ -46,16 +47,19 @@ class Usuario(AbstractUser):
     )
 
     def save(self, *args, **kwargs):
+        # Validación defensiva en modelo: levantamos ValidationError si el RUT es inválido.
+        # Esto permite que la vista capture la excepción y muestre el mensaje en el formulario.
         if self.rut:
-            if not validar_rut(self.rut):
-                raise ValueError("El RUT ingresado no es válido.")
-            self.rut = limpiar_rut(self.rut)
-
+            # Limpiar para validar (no muta aún si falla)
+            rut_limpio = limpiar_rut(self.rut)
+            if not validar_rut(rut_limpio):
+                # Usamos ValidationError con diccionario para facilidad en la vista
+                raise ValidationError({"rut": "El RUT ingresado no es válido."})
+            # Si es válido, asignamos la versión limpia
+            self.rut = rut_limpio
 
         if self.is_superuser and not self.tipo_cliente:
             self.tipo_cliente = "admin"
-        # Evita creación de admin o atención_cliente si NO es superusuario
-
 
         super().save(*args, **kwargs)
 

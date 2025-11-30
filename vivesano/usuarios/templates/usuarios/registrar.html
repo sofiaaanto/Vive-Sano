@@ -41,6 +41,13 @@
         <div class="form-group">
           <label class="form-label">RUT</label>
           {{ form.rut }}
+          {% if form.rut.errors %}
+            <div class="error" style="color:#b00020; font-size:0.9rem; margin-top:0.25rem;">
+              {% for err in form.rut.errors %}
+                {{ err }}
+              {% endfor %}
+            </div>
+          {% endif %}
         </div>
 
         <div class="form-group">
