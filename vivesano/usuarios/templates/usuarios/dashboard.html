@@ -66,6 +66,14 @@
           </a>
         </div>
       </div>
+      <div class="dashboard-grid">
+        <div class="dashboard-item">
+          <h3>Mensajes / Soporte</h3>
+          <p>Habla con nuestro equipo de atención al cliente en tiempo real.</p>
+          <a href="{% url 'mensajeria:conversaciones' %}" class="btn btn-secondary">
+            Mis mensajes
+            </a>
+      </div>
     {% else %}
       <h2 class="dashboard-section-title">Accesos rápidos</h2>
       <div class="dashboard-grid">
