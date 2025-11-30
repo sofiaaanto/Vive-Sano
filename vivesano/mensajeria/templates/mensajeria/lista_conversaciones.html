@@ -16,13 +16,16 @@
     ← Volver
     </a>
     <div class="card">
-        <h2 class="titulo">Mis Conversaciones</h2>
+        <div class="title">
+           <h2 class="titulo">Mis Conversaciones</h2>
+        </div>
+
 
         {% if usuarios %}
             <ul class="lista">
                 {% for usuario in usuarios %}
                 <li class="item">
-                    <a class="link" href="{% url 'mensajeria:chat' usuario.id %}">
+                    <a class="btn btn-fourth" href="{% url 'mensajeria:chat' usuario.id %}">
                         {{ usuario.username }}
                         {% if usuario.unread_count > 0 %}
                             <strong style="color:red;">

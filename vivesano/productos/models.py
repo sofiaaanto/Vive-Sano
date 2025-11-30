@@ -37,8 +37,8 @@ class Producto(models.Model):
 
 class Pedido(models.Model):
     ESTADOS = [
-        ("pendiente", "Pendiente (sin pago real)"),
         ("pagado", "Pagado (simulado)"),
+        ("en proceso", "En proceso"),
         ("en camino", "En camino"),
         ("entregado", "Entregado"),
         ("modificado", "Modificado"),

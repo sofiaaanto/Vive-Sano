@@ -313,7 +313,7 @@ def eliminar_pedido(request, id):
     
 @login_required
 def editar_estado_pedido(request, id):
-    if request.user.tipo_cliente != "atencion_cliente":
+    if request.user.tipo_cliente != "admin":
         return HttpResponseForbidden("No tienes permiso para modificar pedidos.")
 
     else:
