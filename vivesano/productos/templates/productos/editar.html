@@ -34,13 +34,13 @@
 
       <div class="form-group">
         <label class="form-label">Precio:</label>
-        <input type="number" name="precio" step="0.01" value="{{ producto.precio }}" required>
+        <input type="number" name="precio" step="0.01" min="1" value="{{ producto.precio }}" required>
         <small class="form-help">Ingresa el precio en pesos chilenos.</small>
       </div>
 
       <div class="form-group">
         <label class="form-label">Stock:</label>
-        <input type="number" name="stock" value="{{ producto.stock }}" required>
+        <input type="number" name="stock" min="0" value="{{ producto.stock }}" required>
         <small class="form-help">Cantidad disponible en bodega.</small>
       </div>
 
@@ -64,7 +64,7 @@
       {% if producto.imagen %}
       <div class="form-group">
         <label class="form-label">Imagen actual:</label><br>
-        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 160px; border-radius: 8px;">
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 160px; border-radius: 8px;" required>
       </div>
       {% endif %}
 
